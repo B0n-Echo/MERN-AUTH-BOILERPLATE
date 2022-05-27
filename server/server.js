@@ -9,6 +9,16 @@ require('dotenv').config();
 
 const app = express();
 
+//* CONNECT TO DB
+mongoose
+    .connect(process.env.DATABASE_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .then(() => console.log('DB connected'))
+    .catch(err => console.log('DB CONNECTION ERROR: ', err));
+
+
 //* APP MIDDLEWARE
 app.use(morgan('dev'));
 app.use(bodyParser.json());
