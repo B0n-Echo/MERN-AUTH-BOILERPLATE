@@ -54,3 +54,11 @@ exports.signup =  (req, res) => {
 
 
 }
+
+exports.accountActivation = (req, res) => {
+    const {token} = req.body;
+
+    if(token) {
+        jwt.verify(token, process.env.JWT_ACCOUNT_ACTIVATION)
+    }
+}
