@@ -28,7 +28,6 @@ if(process.env.NODE_ENV !== 'production') {
 }
 
 
-
 //* ROUTES
 app.use(`/api`, authRoutes)
 
