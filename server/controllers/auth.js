@@ -59,6 +59,35 @@ exports.accountActivation = (req, res) => {
     const {token} = req.body;
 
     if(token) {
-        jwt.verify(token, process.env.JWT_ACCOUNT_ACTIVATION)
+        jwt.verify(token, process.env.JWT_ACCOUNT_ACTIVATION, function(err, decodedToken) {
+            if(err){
+            console.log("🚀 ~ file: auth.js ~ line 64 ~ jwt.verify ~ err", err)
+                return res.status(401).json({
+                    error: `Expired link. Sign up failed: ${err}`
+                })
+            }
+
+            const {name, email, password} = jwt.decode(token);
+
+            const newUser = new User({name, email, password})
+            newUser.save(function(err, user){
+                if(err) {
+                console.log("🚀 ~ file: auth.js ~ line 75 ~ newUser.save ~ err", err)
+                return res.status(401).json({
+                    error: `Sign up failed: ${err}`
+                })
+                }
+
+                return res.status(200).json({
+                    message: `Sign Up successful. Please signin`
+                })
+
+            })
+        })
+
+    } else {
+        return res.status(200).json({
+            message: `Something went wrong please try again`
+        })
     }
 }
