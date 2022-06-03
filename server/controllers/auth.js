@@ -36,20 +36,6 @@ exports.signup =  (req, res) => {
          };
 
          sendMailWithNodeMailer(req, res, emailData);
-
-        // let newUser = new User({name, email, password});
-        // newUser.save((err, success) => {
-        //     if(err) {
-        //         console.log(err);
-        //         return res.status(500).json({
-        //             message: err.message ? err.message : err
-        //         })
-        //     }
-
-        //     return res.status(200).json({
-        //         message: `Sigup Successful, Please sigin`
-        //     })
-        // })
     })
 
 
