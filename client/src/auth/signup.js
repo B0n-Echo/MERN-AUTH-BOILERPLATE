@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import Layout from '../core/Layout';
 import {ToastContainer, toast} from 'react-toastify';
+import axios from 'axios';
 
 const Signup = () => {
 
@@ -13,7 +14,7 @@ const Signup = () => {
     });
 
 
-    const {buttonText} = values;
+    const {name, email, password, buttonText} = values; //* Desctructuring the button text
 
 
     const signupForm = () => (
@@ -40,19 +41,39 @@ const Signup = () => {
     );
 
     const handleChange = (name) => (event) => {
-        // event.target.value;
+        setValues({...values, [name]: event.target.value});
     }
 
     const clickSubmit = (event) => {
+        event.preventDefault();
 
+        setValues({...values, buttonText: 'Submitting'});
+
+        axios({
+            method: 'POST',
+            url: `${process.env.REACT_APP_API}/signup`,
+            data: {name, email, password}
+        })
+        .then((response) => {
+            console.log(response);
+            setValues({...values,name:'', email:'', password:'', buttonText: 'Submitted'});
+            toast.success(response.data.message)
+        })
+        .catch(err => {
+            console.log(err);
+            setValues({...values,buttonText: 'Submit'});
+            toast.error(err)
+        })
     }
 
    return ( 
-   <Layout>
-        <ToastContainer  />
-        <h1>SignUp</h1>
+    <Layout>
+    <div className="col-md-6 offset-md-3">
+        <ToastContainer />
+        <h1 className="p-5 text-center">Signup</h1>
         {signupForm()}
-    </Layout>
+    </div>
+</Layout>
     )
 }
 
