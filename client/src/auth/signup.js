@@ -35,7 +35,7 @@ const Signup = () => {
             </div>
             
             <div>
-                <button className="btn btn-primary" onClick={clickSubmit()}>{buttonText}</button>
+                <button className="btn btn-primary" onClick={(e) => clickSubmit(e)}>{buttonText}</button>
             </div>
         </form>
     );
@@ -44,9 +44,8 @@ const Signup = () => {
         setValues({...values, [name]: event.target.value});
     }
 
-    const clickSubmit = (event) => {
+    const clickSubmit = event => {
         event.preventDefault();
-
         setValues({...values, buttonText: 'Submitting'});
 
         axios({
