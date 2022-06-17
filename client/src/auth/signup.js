@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import Layout from '../core/Layout';
-import {ToastContainer, toast} from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 
 const Signup = () => {
@@ -53,22 +53,48 @@ const Signup = () => {
             url: `${process.env.REACT_APP_API}/signup`,
             data: {name, email, password}
         })
-        .then((response) => {
-            console.log(response);
-            setValues({...values,name:'', email:'', password:'', buttonText: 'Submitted'});
-            toast.success(response.data.message)
+        .then(response => {
+            console.log('SIGNUP SUCCESS', response);
+            setValues({ ...values, name: '', email: '', password: '', buttonText: 'Submitted' });
+            toast(response.data.message,  {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                });
         })
-        .catch(err => {
-            console.log(err);
-            setValues({...values,buttonText: 'Submit'});
-            toast.error(err)
-        })
+        .catch(error => {
+            console.log('SIGNUP ERROR', error.response.data);
+            setValues({ ...values, buttonText: 'Submit' });
+            toast.error(error.response.data.error,  {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                });
+        });
     }
 
    return ( 
     <Layout>
     <div className="col-md-6 offset-md-3">
-        <ToastContainer />
+        <ToastContainer 
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        />
         <h1 className="p-5 text-center">Signup</h1>
         {signupForm()}
     </div>

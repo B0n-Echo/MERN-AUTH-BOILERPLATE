@@ -7,10 +7,12 @@ exports.signup =  (req, res) => {
 
     User.findOne({email}).exec((err, user) => {
         if(!err && user) {
+            console.log('Email already exists')
             return res.status(400).json({
                 message: 'Email already exists'
             })
         } else if (err){
+            console.log(err)
             return res.status(500).json({
                 message: err.message
             })
